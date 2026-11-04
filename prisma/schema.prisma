@@ -1,0 +1,48 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum StatusExecucao {
+  NA_FILA
+  EM_EXECUCAO
+  CONCLUIDA
+  CANCELADA
+}
+
+model Execucao {
+  id             String          @id @default(uuid())
+  ordemServicoId String          @unique
+  status         StatusExecucao  @default(NA_FILA)
+  mecanicoId     String?
+  entradaFilaEm  DateTime        @default(now())
+  iniciadaEm     DateTime?
+  concluidaEm    DateTime?
+
+  historico HistoricoIntervencao[]
+
+  @@map("execucoes")
+}
+
+// Registra cada intervencao/transicao de status da Execucao - mesmo padrao
+// de OrdemServicoStatusHistorico no OS Service (Fase 4, Sprint 2).
+model HistoricoIntervencao {
+  id          String         @id @default(uuid())
+  execucaoId  String
+  status      StatusExecucao
+  observacao  String?
+  registradoEm DateTime      @default(now())
+
+  execucao Execucao @relation(fields: [execucaoId], references: [id], onDelete: Cascade)
+
+  @@index([execucaoId])
+  @@map("historico_intervencoes")
+}
