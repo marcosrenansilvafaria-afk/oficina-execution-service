@@ -107,15 +107,23 @@ export class SqsConsumerService implements OnModuleInit, OnModuleDestroy {
     const ordemServicoId =
       (payload.ordemServicoId as string | undefined) ?? correlationId;
 
+    this.logger.log({ correlationId, eventType }, 'Processando evento do Saga');
+
     switch (eventType) {
       case 'PagamentoAprovadoEvent':
         await this.entrarNaFila.execute(ordemServicoId);
-        return;
+        break;
       case 'CompensarOSEvent':
         await this.compensarExecucao.execute(ordemServicoId);
-        return;
+        break;
       default:
         this.logger.warn(`Evento do Saga nao reconhecido: ${eventType}`);
+        return;
     }
+
+    this.logger.log(
+      { correlationId, eventType },
+      'Evento do Saga processado com sucesso',
+    );
   }
 }
