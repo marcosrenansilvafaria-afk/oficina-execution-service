@@ -117,6 +117,16 @@ BDD (`test/bdd/execucao.feature`, 2 cenários): fluxo feliz completo
 `ExecucaoConcluidaEvent` publicados) e falha técnica durante o reparo
 (`CompensarOSEvent` com `origemFalha=EXECUCAO` publicado).
 
+## Simulação E2E do Saga (Sprint 5)
+
+Os testes acima validam este serviço isoladamente. A validação do Saga
+coreografado **entre os 3 microsserviços reais** (publicando/consumindo
+no SNS/SQS FIFO real, não um emulador) vive em
+[`oficina-app/test/saga-e2e/`](https://github.com/marcosrenansilvafaria-afk/oficina-app/tree/main/test/saga-e2e)
+— veja o README daquela suíte para pré-requisitos e instruções
+(`docker compose -f docker-compose.saga-e2e.yml up` + `npm run test:saga-e2e`,
+executado a partir do `oficina-app`).
+
 ## Deploy no EKS
 
 Pipeline em [`.github/workflows/ci-cd-execution-service.yml`](.github/workflows/ci-cd-execution-service.yml),
