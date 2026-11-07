@@ -151,6 +151,15 @@ no SNS/SQS FIFO real, não um emulador) vive em
 (`docker compose -f docker-compose.saga-e2e.yml up` + `npm run test:saga-e2e`,
 executado a partir do `oficina-app`).
 
+## Qualidade de código (SonarQube)
+
+Scan automático a cada push/PR via [SonarCloud](https://sonarcloud.io)
+(`sonar-project.properties`, projectKey `oficina-execution-service`), com
+o relatório de cobertura do repositório inteiro (`coverage/lcov.info`). O
+job `sonarqube` do CI só executa quando a variável de repositório
+`SONAR_ENABLED=true` estiver definida — sem ela, aparece como
+**skipped**, nunca **failed**.
+
 ## Deploy no EKS
 
 Pipeline em [`.github/workflows/ci-cd-execution-service.yml`](.github/workflows/ci-cd-execution-service.yml),
