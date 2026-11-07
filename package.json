@@ -90,7 +90,12 @@
       "@prisma/adapter-pg": "<rootDir>/../__mocks__/prisma-adapter-pg.mock.ts"
     },
     "collectCoverageFrom": [
-      "**/*.(t|j)s"
+      "**/*.(t|j)s",
+      "!generated/**",
+      "!main.ts",
+      "!**/*.module.ts",
+      "!auth/jwt-auth.guard.ts",
+      "!infraestructure/prisma/prisma.service.ts"
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"

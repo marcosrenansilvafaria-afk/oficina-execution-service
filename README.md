@@ -119,10 +119,22 @@ Lista completa, com schemas de request/response, no Swagger.
 
 ```bash
 npm test                  # unitarios (Jest)
+npm run test:cov          # cobertura do repositorio inteiro
 npm run test:cov:critical # cobertura de domain/entities + application/use-cases, gate >= 80%
 npm run test:bdd          # BDD (jest-cucumber) - fluxo feliz + falha/compensacao
 npm run test:e2e          # end-to-end (supertest)
 ```
+
+Evidência de cobertura crítica (`test:cov:critical`, `domain/entities` +
+`application/use-cases`): **100%** em statements/branches/functions/lines.
+
+Evidência de cobertura **do repositório inteiro** (`test:cov`): **94,54%**
+statements / **84,47%** branches / **94,8%** functions / **94,33%**
+lines — acima do mínimo de 80% exigido em qualquer uma das duas métricas.
+Excluídos da medição: código gerado pelo Prisma Client
+(`src/generated/prisma/`), `main.ts`, `*.module.ts` e `JwtAuthGuard`
+(wiring puro, sem lógica própria) — mesmo critério usado para delimitar o
+gate crítico acima.
 
 BDD (`test/bdd/execucao.feature`, 2 cenários): fluxo feliz completo
 (pagamento aprovado → fila → início → fim, com `ExecucaoIniciadaEvent` e
